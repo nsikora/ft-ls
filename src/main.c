@@ -14,51 +14,66 @@
 
 int	main(int ac, char **av)
 {
-	//char	**paths;
-	//char	**flags;
 	int		flag_available;
-	int		i;
+    t_flags *flags;
+    char	**paths;
 
-	flag_available = 0;
-	i = 1;
-	//paths = getPaths();
-	//flags = getFlags();
-	if (ac == 1)
-		read_info(".", flag_available);
+    flag_available = 0;
+    if (ac == 1) {
+		display_ls_noflag(opendir("."));
+        return (0);
+    }
 	else
 	{
-		while (i < ac)
-		{
-			if (i == 1 && av[i][0] == '-')
-			{
-				flag_available = 1;
-			}
-			read_info(av[i], flag_available);
-			i++;
-		}
+        if ((flags = malloc(sizeof(t_flags))) == 0)
+		    return (1);
+        initialize_flags(flags);
+        get_flags(av, flags);
+        if (flags->illegal == TRUE) {
+            free(flags);
+            return (0);
+        }
+        paths = get_paths(av);
+		read_info(paths, flags);
 	}
 	return (0);
 }
 
-void	read_info(char *path, int flagAvailable)
+void	read_info(char **path, t_flags *flags)
 {
 	DIR	*d;
+    int i;
 
-	d = opendir(path);
-	if (d == NULL)
-	{
-		error_message(path);
-		return ;
-	}
-	ft_putstr(path);
-	ft_putstr(":\n");
-	if (d)
-	{
-		if (flagAvailable == 0)
-			display_ls_noflag(d);
-		else
-			ft_putendl("flag usage in progress");
-	}
+    // I = 2 FOR OUR TEST. IT WILL NEED TO BE EQUAL TO 0 with the true **path
+    i = 0;
+    while (path[i]) {
+	    d = opendir(path[i]);
+	    if (d == NULL)
+	    {
+	    	error_message(path[i]);
+	    	return ;
+	    }
+        ft_putstr(path[i]);
+	    ft_putstr(":\n");
+	    if (d)
+	    {
+            if (flags->R == TRUE)
+                ft_putendl("flag implementation not done yet");
+            if (flags->a == TRUE)
+                ft_putendl("flag implementation not done yet");
+            if (flags->f == TRUE)
+                ft_putendl("flag implementation not done yet");
+            if (flags->l == TRUE)
+                ft_putendl("flag implementation not done yet");
+            if (flags->r == TRUE)
+                ft_putendl("flag implementation not done yet");
+            if (flags->t == TRUE)
+                ft_putendl("flag implementation not done yet");
+            if (flags->empty == TRUE)
+                display_ls_noflag(d);
+	    }
+        i++;
+    }
 }
 
 void	display_ls_noflag(DIR *d)
@@ -67,7 +82,7 @@ void	display_ls_noflag(DIR *d)
 	int				i;
 
 	dir = readdir(d);
-	i = 0;
+    i = 0;
 	while (dir)
 	{
 		if (dir->d_name[0] != '.')

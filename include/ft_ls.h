@@ -19,9 +19,31 @@
 # include <fcntl.h>
 # include <unistd.h>
 
-void	read_info(char *path, int flagAvailable);
+# define TRUE   0
+# define FALSE  1
+
+typedef struct		s_flags
+{
+    int             R;
+    int             a;
+    int             f;
+    int             l;
+    int             r;
+    int             t;
+    int             empty;
+    int             illegal;
+}					t_flags;
+
+
+void	read_info(char **path, t_flags *flags);
 void	display_ls_noflag(DIR *d);
 void	error_message(char *path);
-char	**initialize_paths(char **av);
+void    initialize_flags(t_flags *flags);
+void    get_flags(char **av, t_flags *flags);
+char    **get_paths(char **av);
+char    **order_by_alphabetical(DIR *d);
+int     check_flags(char c, t_flags *flags);
+int     check_flags_next(char c, t_flags *flags);
+void    show_illegal_option(char c, t_flags *flags);
 
 #endif
