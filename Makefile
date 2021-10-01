@@ -13,7 +13,8 @@ INCLUDE	=	include/fillit.h
 SRCS	=	src/main.c			\
 			src/order_by.c		\
 			src/get_data.c		\
-			src/check_flags.c
+			src/check_flags.c	\
+			src/free.c
 
 all: 		$(NAME)
 			$(CC) -o $(NAME) $(OBJS) -I . -L./libft -lft

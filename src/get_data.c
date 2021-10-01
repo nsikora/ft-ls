@@ -12,7 +12,8 @@
 
 #include "include/ft_ls.h"
 
-void        initialize_flags(t_flags *flags) {
+void        initialize_flags(t_flags *flags)
+{
     flags->R = FALSE;
     flags->a = FALSE;
     flags->f = FALSE;
@@ -54,6 +55,23 @@ void        get_flags(char **av, t_flags *flags) {
     }
 }
 
+void        fill_paths_data(int i, int len, char **av, char **paths)
+{
+    i = 1;
+    len = 0;
+    while (av[i]) {
+        if (av[i][0] != '-' || (av[i][0] == '-' && !av[i][1]))
+        {
+            paths[len] = malloc(sizeof(char) * ft_strlen(av[i]) + 1);
+            ft_memcpy(paths[len], av[i], ft_strlen(av[i]));
+            paths[len][ft_strlen(av[i])] = '\0';    
+            len++;
+        }
+        i++;
+    }
+    paths[len] = NULL;
+}
+
 char        **get_paths(char **av) {
     char    **paths;
     int     i;
@@ -66,17 +84,15 @@ char        **get_paths(char **av) {
             len++;
         i++;
     }
-    paths = malloc(sizeof(char *) * len + 1);
-    i = 1;
-    len = 0;
-    while (av[i]) {
-        if (av[i][0] != '-' || (av[i][0] == '-' && !av[i][1])) {
-            paths[len] = malloc(sizeof(char) * ft_strlen(av[i]) + 1);
-            ft_memcpy(paths[len], av[i], ft_strlen(av[i]));
-            len++;
-        }
-        i++;
+    if (len == 0)
+    {
+        paths = malloc(sizeof(char *) * 1 + 1);
+        paths[0] = malloc(sizeof(char) * 1);
+        paths[0][0] = '.';
+        paths[1] = NULL;
+        return paths;
     }
-    paths[len] = NULL;
+    paths = malloc(sizeof(char *) * len + 1);
+    fill_paths_data(i, len, av, paths);
     return (paths);
 }

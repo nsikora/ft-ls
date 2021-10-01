@@ -34,16 +34,20 @@ typedef struct		s_flags
     int             illegal;
 }					t_flags;
 
-
-void	read_info(char **path, t_flags *flags);
-void	display_ls_noflag(DIR *d);
+void	read_info(char **paths, t_flags *flags);
+void	display_ls_noflag(DIR *d, t_flags *flags);
 void	error_message(char *path);
 void    initialize_flags(t_flags *flags);
 void    get_flags(char **av, t_flags *flags);
 char    **get_paths(char **av);
-char    **order_by_alphabetical(DIR *d);
+void    order_by_alphabetical(char **str);
+void    swap(char **str1, char **str2);
 int     check_flags(char c, t_flags *flags);
 int     check_flags_next(char c, t_flags *flags);
 void    show_illegal_option(char c, t_flags *flags);
+void    free_data(char **paths, t_flags *flags);
+int     get_str_nb(char **str);
+void    fill_paths_data(int i, int len, char **av, char **paths);
+void    display_mode(struct dirent	*dir, t_flags *flags, int i);
 
 #endif

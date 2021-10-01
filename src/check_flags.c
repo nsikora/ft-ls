@@ -19,16 +19,19 @@ int        check_flags(char c, t_flags *flags) {
     if (c == 'R')
     {
         flags->R = TRUE;
+        flags->empty = FALSE;
         return (0);
     }
     if (c == 'a')
     {
         flags->a = TRUE;
+        flags->empty = FALSE;
         return (0);
     }
     if (c == 'f')
     {
         flags->f = TRUE;
+        flags->empty = FALSE;
         return (0);
     }
     if (ret == 1)
@@ -39,16 +42,19 @@ int        check_flags_next(char c, t_flags *flags) {
     if (c == 'l')
     {
         flags->l = TRUE;
+        flags->empty = FALSE;
         return (0);
     }
     if (c == 'r')
     {
         flags->r = TRUE;
+        flags->empty = FALSE;
         return (0);
     }
     if (c == 't')
     {
         flags->t = TRUE;
+        flags->empty = FALSE;
         return (0);
     }
     return (1);
